@@ -1,0 +1,17 @@
+### Example API endpoint rest client tests
+
+### 4. Search season by season name
+GET http://localhost:3000/api/search-by-season/fourth
+
+### 5. Add a new season
+POST http://localhost:3000/api/add-season
+Content-Type: application/json
+
+{
+  "id": 12,
+  "season":"first",
+  "years": "2023-2024"
+}
+
+### 6. Delete a season by id
+DELETE http://localhost:3000/api/delete-season/12
