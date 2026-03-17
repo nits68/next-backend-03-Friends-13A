@@ -1,16 +1,38 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client-js"
-  output   = "../app/prisma/client"
+  provider      = "prisma-client-js"
+  output        = "../app/prisma/client"
   binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
+}
+
+model Episode {
+  id             Int      @id @map("_id")
+  airstamp       DateTime @db.Date
+  image_medium   String   @default("https://bgs.jedlik.eu/no_image.png")
+  image_original String   @default("https://bgs.jedlik.eu/no_image.png")
+  name           String
+  number         Int
+  runtime        Int
+  seasonId       Int
+  summary        String
+  url            String
+
+  season Season @relation(fields: [seasonId], references: [id])
+
+  @@index([seasonId])
+  @@map("episodes")
+}
+
+model Season {
+  id     Int    @id @map("_id")
+  season String @unique
+  years  String
+
+  episodes Episode[]
+
+  @@map("seasons")
 }
